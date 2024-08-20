@@ -6,7 +6,8 @@ import (
 	"net/http"
 )
 
-func RegisterRoutes(r *gin.Engine, registry *Registry) {
+func (registry *Registry) StartServer(port string) {
+	r := gin.Default()
 	// 服务注册接口
 	r.POST("/register", func(c *gin.Context) {
 		var service ServiceInstance
@@ -14,7 +15,7 @@ func RegisterRoutes(r *gin.Engine, registry *Registry) {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		log.Print("注册进来的服务的信息%s", service)
+		log.Print("注册进来的服务信息%s", service)
 		registry.RegisterService(&service)
 		c.JSON(http.StatusOK, gin.H{"status": "registered"})
 	})
@@ -35,4 +36,8 @@ func RegisterRoutes(r *gin.Engine, registry *Registry) {
 		}
 		c.JSON(http.StatusOK, service)
 	})
+	err := r.Run(port)
+	if err != nil {
+		return
+	}
 }
