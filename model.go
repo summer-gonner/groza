@@ -8,7 +8,7 @@ import (
 type ServiceInstance struct {
 	ServiceName       string `json:"serviceName"`
 	Host              string `json:"host"`
-	Port              string `json:"port"`
+	Port              int    `json:"port"`
 	RegisterTime      string `json:"registerTime"`
 	LastHeartBeatTime string `json:"LastHeartBeatTime"`
 }

@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-// 启动服务
+// StartServer 启动服务
 func (registry *Registry) StartServer(port string) {
 	r := gin.Default()
 	// 服务注册接口
@@ -17,7 +17,7 @@ func (registry *Registry) StartServer(port string) {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		log.Print("注册进来的服务信息%s", service)
+		log.Printf("注册进来的服务信息%s", service)
 		registry.registerService(&service)
 		c.JSON(http.StatusOK, gin.H{"status": "registered"})
 	})
@@ -48,7 +48,7 @@ func (registry *Registry) StartServer(port string) {
 func (registry *Registry) registerService(service *ServiceInstance) {
 	registry.mu.Lock()
 	defer registry.mu.Unlock()
-	serviceKey := service.ServiceName + service.Host + string(service.Port)
+	serviceKey := service.ServiceName + service.Host + string(rune(service.Port))
 	service.LastHeartBeatTime = time.Now().String()
 	registry.services[serviceKey] = service
 }
@@ -75,12 +75,12 @@ func (registry *Registry) getAllServices() []*ServiceInstance {
 }
 
 // Heartbeat 更新服务实例的心跳时间
-func (r *Registry) heartbeat(serviceName, host string, port int) {
-	r.mu.Lock()
-	defer r.mu.Unlock()
+func (registry *Registry) heartbeat(serviceName, host string, port int) {
+	registry.mu.Lock()
+	defer registry.mu.Unlock()
 
-	serviceKey := serviceName + host + string(port)
-	if service, exists := r.services[serviceKey]; exists {
+	serviceKey := serviceName + host + string(rune(port))
+	if service, exists := registry.services[serviceKey]; exists {
 		service.LastHeartBeatTime = time.Now().String()
 	}
 }

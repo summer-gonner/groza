@@ -3,38 +3,38 @@ package groza_server
 import "time"
 
 // Cleanup 定期清理超时的服务实例
-func (r *Registry) Cleanup(timeout time.Duration) {
+func (registry *Registry) Cleanup(timeout time.Duration) {
 	for {
 		time.Sleep(timeout)
 
-		r.mu.Lock()
-		for key, service := range r.services {
+		registry.mu.Lock()
+		for key, service := range registry.services {
 			// 定义时间格式
 			layout := "2006-01-02 15:04:05"
 			parse, _ := time.Parse(layout, service.LastHeartBeatTime)
 			if time.Since(parse) > timeout {
-				delete(r.services, key)
+				delete(registry.services, key)
 			}
 		}
-		r.mu.Unlock()
+		registry.mu.Unlock()
 	}
 }
 
-// Cleanup 定期清理超时的服务实例
-func (r *Registry) CleanupDefault() {
+// CleanupDefault 定期清理超时的服务实例
+func (registry *Registry) CleanupDefault() {
 	for {
 		timeout := 15 * time.Second
 		time.Sleep(timeout)
 
-		r.mu.Lock()
-		for key, service := range r.services {
+		registry.mu.Lock()
+		for key, service := range registry.services {
 			// 定义时间格式
 			layout := "2006-01-02 15:04:05"
 			parse, _ := time.Parse(layout, service.LastHeartBeatTime)
 			if time.Since(parse) > timeout {
-				delete(r.services, key)
+				delete(registry.services, key)
 			}
 		}
-		r.mu.Unlock()
+		registry.mu.Unlock()
 	}
 }
