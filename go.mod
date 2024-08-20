@@ -1,6 +1,6 @@
 module github.com/summer-gonner/groza_server
 
-go 1.22.1
+go 1.21.1
 
 require github.com/gin-gonic/gin v1.10.0
 
