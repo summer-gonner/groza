@@ -1,4 +1,4 @@
-package groza_server
+package groza
 
 import (
 	"github.com/gin-gonic/gin"

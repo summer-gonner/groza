@@ -1,4 +1,4 @@
-module github.com/summer-gonner/groza_server
+module github.com/summer-gonner/groza
 
 go 1.21.1
 
