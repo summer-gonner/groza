@@ -3,7 +3,7 @@ package groza
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/summer-gonner/groza/common/response"
-	"log"
+	"github.com/summer-gonner/groza/logging"
 	"time"
 )
 
@@ -24,9 +24,9 @@ func (s *Server) serviceRegister(c *gin.Context) {
 
 	var service ServiceInstance
 	err := c.ShouldBindJSON(&service)
-	log.Printf(" 【sevice】 %v", service)
+	logging.Logger.Printf(" 【sevice】 %v", service)
 	if err != nil {
-		log.Printf(" 【err】 %v", err)
+		logging.Logger.Printf(" 【err】 %v", err)
 		response.Fail(c, "注册失败")
 	} else {
 		response.Success(c, service)
