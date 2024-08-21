@@ -2,46 +2,45 @@ package groza
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/summer-gonner/groza/common/response"
 	"log"
-	"net/http"
 	"time"
 )
 
+type Server struct {
+}
+
+// 服务注册
+func (s *Server) getService(c *gin.Context) {
+	name := c.Param("name")
+	log.Printf("需要查询的服务名：%s", name)
+	response.Success(c, name)
+}
+
+func (s *Server) getAllServices(c *gin.Context) {
+
+}
+
+func (s *Server) serviceRegister(c *gin.Context) {
+	var service ServiceInstance
+	err := c.ShouldBindJSON(&service)
+	log.Printf("接收到的服务信息为:%s", service)
+	if err != nil {
+		response.Fail(c, "注册失败")
+	} else {
+		response.Success(c, service)
+	}
+
+}
+
+// 心跳机制
+func (s *Server) heartBeat(c *gin.Context) {
+
+}
+
 // StartServer 启动服务
 func (registry *Registry) StartServer(port string) {
-	r := gin.Default()
-	// 服务注册接口
-	r.POST("/register", func(c *gin.Context) {
-		var service ServiceInstance
-		if err := c.ShouldBindJSON(&service); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
-		log.Printf("注册进来的服务信息%s", service)
-		registry.registerService(&service)
-		c.JSON(http.StatusOK, gin.H{"status": "registered"})
-	})
 
-	// 查询所有服务
-	r.GET("/services", func(c *gin.Context) {
-		services := registry.getAllServices()
-		c.JSON(http.StatusOK, services)
-	})
-
-	// 查询特定服务
-	r.GET("/service/:name", func(c *gin.Context) {
-		name := c.Param("name")
-		service := registry.getService(name)
-		if service == nil {
-			c.JSON(http.StatusNotFound, gin.H{"error": "服务没找到"})
-			return
-		}
-		c.JSON(http.StatusOK, service)
-	})
-	err := r.Run(port)
-	if err != nil {
-		return
-	}
 }
 
 // RegisterService 注册一个服务

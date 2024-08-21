@@ -6,5 +6,5 @@ type ServiceInstance struct {
 	Host              string `json:"host"`
 	Port              int    `json:"port"`
 	RegisterTime      string `json:"registerTime"`
-	LastHeartBeatTime string `json:"LastHeartBeatTime"`
+	LastHeartBeatTime string `json:"lastHeartBeatTime"`
 }

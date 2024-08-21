@@ -12,12 +12,15 @@ type Registry struct {
 
 // Default  NewRegistryDefault 创建一个新的注册中心实例
 func Default(vf ...VariableFunc) *Registry {
-	debugPrintWARNINGDefault()
-
+	debugPrintWARNINGDefault("哈哈")
+	registry := Create()
+	return registry
 }
 
 func Create(vf ...VariableFunc) *Registry {
 	debugPrintWARNINGCREATE()
+	registry := Create()
+	return registry
 }
 
 type VariableFunc func(*Registry)
@@ -25,3 +28,9 @@ type VariableFunc func(*Registry)
 func debugPrintWARNINGCREATE() {
 	debugPrint("打印debug级别的日志")
 }
+
+func (registry *Registry) Use(middleware ...HandlerFunc) {
+
+}
+
+type HandlerFunc func()
