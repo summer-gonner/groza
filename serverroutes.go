@@ -4,13 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type RouteInfo struct {
-	Engine *gin.Engine
-}
-
-func (r *RouteInfo) RouteGroup() {
-
-	engine := r.Engine
+func (r *Routes) ServerRoutes(engine *gin.Engine) {
 
 	server := Server{}
 	serverGroup := engine.Group("/service")

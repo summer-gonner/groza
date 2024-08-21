@@ -1,6 +1,8 @@
 package groza
 
 import (
+	"github.com/gin-gonic/gin"
+	"github.com/summer-gonner/groza/middleware"
 	"sync"
 )
 
@@ -11,16 +13,23 @@ type Registry struct {
 }
 
 // Default  NewRegistryDefault 创建一个新的注册中心实例
-func Default(vf ...VariableFunc) *Registry {
+func Default(vf ...VariableFunc) {
+	initDefaultGinNew()
 	debugPrintWARNINGDefault("哈哈")
-	registry := Create()
-	return registry
 }
 
-func Create(vf ...VariableFunc) *Registry {
+func Create(vf ...VariableFunc) {
+	initDefaultGinNew()
 	debugPrintWARNINGCREATE()
-	registry := Create()
-	return registry
+}
+
+func initDefaultGinNew() {
+
+	engine := gin.New()
+	engine.Use(middleware.HttpIntercept())
+	routes := Routes{}
+	routes.ServerRoutes(engine)
+
 }
 
 type VariableFunc func(*Registry)

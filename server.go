@@ -13,7 +13,6 @@ type Server struct {
 // 服务注册
 func (s *Server) getService(c *gin.Context) {
 	name := c.Param("name")
-	log.Printf("需要查询的服务名：%s", name)
 	response.Success(c, name)
 }
 
@@ -22,10 +21,12 @@ func (s *Server) getAllServices(c *gin.Context) {
 }
 
 func (s *Server) serviceRegister(c *gin.Context) {
+
 	var service ServiceInstance
 	err := c.ShouldBindJSON(&service)
-	log.Printf("接收到的服务信息为:%s", service)
+	log.Printf(" 【sevice】 %v", service)
 	if err != nil {
+		log.Printf(" 【err】 %v", err)
 		response.Fail(c, "注册失败")
 	} else {
 		response.Success(c, service)

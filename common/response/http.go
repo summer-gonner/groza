@@ -7,7 +7,6 @@ import (
 
 func response(c *gin.Context, code int, message string, data interface{}, success bool, fail bool, errorMsg string) {
 	requestId := c.MustGet("requestId").(string)
-
 	resp := Response{
 		Code:      code,
 		Message:   message,
