@@ -18,7 +18,7 @@ func HttpIntercept() gin.HandlerFunc {
 		// 记录请求入参
 		bodyBytes, _ := ioutil.ReadAll(c.Request.Body)
 		c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(bodyBytes)) // 读取后重新填充Body
-		logging.Logger.Printf("【请求方式】%s【请求URL】 %s【请求入参】 %s\n", c.Request.Method, c.Request.URL, string(bodyBytes))
+		logging.Info("【请求方式】%s【请求URL】 %s【请求入参】 %s\n", c.Request.Method, c.Request.URL, string(bodyBytes))
 		//塞入requestID
 		c.Set("requestId", traceId)
 		// 创建一个记录器来捕获响应体
@@ -33,8 +33,8 @@ func HttpIntercept() gin.HandlerFunc {
 		c.Next() // 继续处理请求
 
 		// 记录响应体
-		logging.Logger.Printf("【响应体】 %s\n", responseBody.body.String())
-		logging.Logger.Printf("【消耗时间】 %v\n", time.Since(startTime))
+		logging.Info("【响应体】 %s\n", responseBody.body.String())
+		logging.Info("【消耗时间】 %v\n", time.Since(startTime))
 	}
 }
 

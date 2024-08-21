@@ -42,4 +42,15 @@ func Init(traceId string) {
 	// 返回一个带有 traceId 的日志记录器实例
 	// 添加 hook
 	Logger.AddHook(&TraceIDHook{TraceID: traceId})
+
+}
+
+// Info
+func Info(format string, args ...interface{}) {
+	Logger.Info(format, args)
+}
+
+// Errorf 记录错误日志
+func Errorf(format string, args ...interface{}) {
+	Logger.Errorf(format, args...)
 }

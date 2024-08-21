@@ -24,10 +24,11 @@ func (s *Server) serviceRegister(c *gin.Context) {
 
 	var service ServiceInstance
 	err := c.ShouldBindJSON(&service)
-	logging.Logger.Printf(" 【sevice】 %v", service)
+	logging.Info(" 【sevice】 %v", service)
 	if err != nil {
-		logging.Logger.Printf(" 【err】 %v", err)
-		response.Fail(c, "注册失败")
+		logging.Errorf(" 【err】 %v", err)
+		logging.
+			response.Fail(c, "注册失败")
 	} else {
 		response.Success(c, service)
 	}
