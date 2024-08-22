@@ -11,32 +11,36 @@ type Server struct {
 }
 
 // 服务注册
-func (s *Server) getService(c *gin.Context) {
+func (s *Server) GetService(c *gin.Context) {
 	name := c.Param("name")
 	response.Success(c, name)
 }
 
-func (s *Server) getAllServices(c *gin.Context) {
-
+func (s *Server) GetAllServices(c *gin.Context) {
+	registry := Registry{}
+	services := registry.getAllServices()
+	logging.Info("查询到的服务信息为 %s", services)
+	response.Success(c, services)
 }
 
-func (s *Server) serviceRegister(c *gin.Context) {
+func (s *Server) ServiceRegister(c *gin.Context) {
 
 	var service ServiceInstance
 	err := c.ShouldBindJSON(&service)
 	logging.Info(" 【sevice】 %v", service)
+	registry := Registry{}
+	registry.registerService(&service)
 	if err != nil {
 		logging.Errorf(" 【err】 %v", err)
-		logging.
-			response.Fail(c, "注册失败")
+		response.Fail(c, "注册失败")
 	} else {
 		response.Success(c, service)
 	}
 
 }
 
-// 心跳机制
-func (s *Server) heartBeat(c *gin.Context) {
+// HeartBeat 心跳机制
+func (s *Server) HeartBeat(c *gin.Context) {
 
 }
 
@@ -76,7 +80,7 @@ func (registry *Registry) getAllServices() []*ServiceInstance {
 }
 
 // Heartbeat 更新服务实例的心跳时间
-func (registry *Registry) heartbeat(serviceName, host string, port int) {
+func (registry *Registry) Heartbeat(serviceName, host string, port int) {
 	registry.mu.Lock()
 	defer registry.mu.Unlock()
 

@@ -1,4 +1,4 @@
-package groza
+package routes
 
 type Routes struct {
 }

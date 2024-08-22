@@ -3,6 +3,7 @@ package groza
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/summer-gonner/groza/middleware"
+	routes "github.com/summer-gonner/groza/routes"
 	"sync"
 )
 
@@ -27,8 +28,8 @@ func initDefaultGinNew() {
 
 	engine := gin.New()
 	engine.Use(middleware.HttpIntercept())
-	routes := Routes{}
-	routes.ServerRoutes(engine)
+	routers := routes.Routes{}
+	routers.ServerRoutes(engine)
 
 }
 
