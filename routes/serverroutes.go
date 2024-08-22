@@ -2,19 +2,19 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/summer-gonner/groza"
+	"github.com/summer-gonner/groza/server"
 )
 
 func (r *Routes) ServerRoutes(engine *gin.Engine) {
 
-	server := groza.Server{}
+	s := server.Server{}
 	serverGroup := engine.Group("/service")
 	{
 		//服务注册
-		serverGroup.POST("/register", server.ServiceRegister)
-		serverGroup.GET("/getAllServices", server.GetAllServices)
-		serverGroup.GET("/getService/:serviceName", server.GetService)
-		serverGroup.POST("/heartBeat", server.HeartBeat)
+		serverGroup.POST("/register", s.ServiceRegister)
+		serverGroup.GET("/getAllServices", s.GetAllServices)
+		serverGroup.GET("/getService/:serviceName", s.GetService)
+		serverGroup.POST("/heartBeat", s.HeartBeat)
 	}
 
 	engine.Run(":5566")

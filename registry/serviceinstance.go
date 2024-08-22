@@ -1,4 +1,4 @@
-package groza
+package registry
 
 // ServiceInstance 其他服务请求注册的请求体信息
 type ServiceInstance struct {

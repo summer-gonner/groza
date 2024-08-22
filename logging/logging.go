@@ -32,7 +32,7 @@ func Init(traceId string) {
 	Logger.SetOutput(os.Stdout)
 
 	// 设置日志级别
-	Logger.SetLevel(logrus.InfoLevel)
+	Logger.SetLevel(logrus.DebugLevel) // 调试级别，记录所有日志
 
 	// 可选：设置日志格式
 	Logger.SetFormatter(&logrus.TextFormatter{
@@ -45,9 +45,8 @@ func Init(traceId string) {
 
 }
 
-// Info
 func Info(format string, args ...interface{}) {
-	Logger.Info(format, args)
+	Logger.Infof(format, args)
 }
 
 // Errorf 记录错误日志
