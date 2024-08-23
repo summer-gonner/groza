@@ -7,14 +7,15 @@ import (
 
 func (r *Routes) ServerRoutes(engine *gin.Engine) {
 
-	s := server.Server{}
+	srv := server.NewServer()
+
 	serverGroup := engine.Group("/service")
 	{
 		//服务注册
-		serverGroup.POST("/register", s.ServiceRegister)
-		serverGroup.GET("/getAllServices", s.GetAllServices)
-		serverGroup.GET("/getService/:serviceName", s.GetService)
-		serverGroup.POST("/heartBeat", s.HeartBeat)
+		serverGroup.POST("/register", srv.ServiceRegister)
+		serverGroup.GET("/getAllServices", srv.GetAllServices)
+		serverGroup.GET("/getService/:serviceName", srv.GetService)
+		serverGroup.POST("/heartBeat", srv.HeartBeat)
 	}
 
 	engine.Run(":5566")

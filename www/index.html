@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>服务注册中心</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <h1>服务列表</h1>
+    <ul>
+        <li v-for="service in services" :key="service.serviceName">
+            {{ service.serviceName }} - {{ service.host }}:{{ service.port }}
+        </li>
+    </ul>
+    <form @submit.prevent="registerService">
+        <input v-model="serviceName" placeholder="Service Name" required />
+        <input v-model="host" placeholder="Host" required />
+        <input type="number" v-model="port" placeholder="Port" required />
+        <button @click="registerService">注册服务</button>
+    </form>
+</div>
+
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                services: [],
+                serviceName: '',
+                host: '',
+                port: ''
+            }
+        },
+        methods: {
+            async fetchServices() {
+                try {
+                    const response = await axios.get('/api/getAllServices')
+                    this.services = response.data.data
+                } catch (error) {
+                    console.error('Error fetching services:', error)
+                }
+            },
+            async registerService() {
+                try {
+                    const response = await axios.post('/api/register', {
+                        serviceName: this.serviceName,
+                        host: this.host,
+                        port: this.port,
+                    })
+                    console.log('Service registered:', response.data)
+                    this.fetchServices()
+                } catch (error) {
+                    console.error('Error registering service:', error)
+                }
+            }
+        },
+        mounted() {
+            this.fetchServices()
+        }
+    })
+
+    app.mount('#app')
+</script>
+</body>
+</html>

@@ -6,7 +6,6 @@ import (
 	"github.com/summer-gonner/groza/logging"
 	"github.com/summer-gonner/groza/utils"
 	"io/ioutil"
-	"log"
 	"time"
 )
 
@@ -19,8 +18,8 @@ func HttpIntercept() gin.HandlerFunc {
 		// 记录请求入参
 		bodyBytes, _ := ioutil.ReadAll(c.Request.Body)
 		c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(bodyBytes)) // 读取后重新填充Body
-		logging.Info("【请求方式】 %s 【请求URL】 %s【请求入参】 %s ", c.Request.Method, c.Request.URL, string(bodyBytes))
-		log.Printf("哈哈哈%s", traceId)
+		logging.Info("【请求方式】 %s 【请求URL】%s【请求入参】 %s ", c.Request.Method, c.Request.URL, string(bodyBytes))
+
 		//塞入requestID
 		c.Set("requestId", traceId)
 		// 创建一个记录器来捕获响应体
