@@ -6,21 +6,21 @@
     <title>服务注册中心</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Import style -->
+    <link
+            rel="stylesheet"
+            href="//cdn.jsdelivr.net/npm/element-plus/dist/index.css"
+    />
+    <!-- Import Vue 3 -->
+    <script src="//cdn.jsdelivr.net/npm/vue@3"></script>
+    <!-- Import component library -->
+    <script src="//cdn.jsdelivr.net/npm/element-plus"></script>
 </head>
 <body>
 <div id="app">
     <h1>服务列表</h1>
-    <ul>
-        <li v-for="service in services" :key="service.serviceName">
-            {{ service.serviceName }} - {{ service.host }}:{{ service.port }}
-        </li>
-    </ul>
-    <form @submit.prevent="registerService">
-        <input v-model="serviceName" placeholder="Service Name" required />
-        <input v-model="host" placeholder="Host" required />
-        <input type="number" v-model="port" placeholder="Port" required />
-        <button @click="registerService">注册服务</button>
-    </form>
+
+
 </div>
 
 <script>
